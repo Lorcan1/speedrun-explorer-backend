@@ -1,0 +1,109 @@
+[Event "Sensei Danya Speedrun (Part 2): Introduction"]
+[Date "2021.03.14"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Sensei Danya Speedrun (Part 2)"]
+[ChapterName "Introduction"]
+[ChapterURL "https://lichess.org/study/6gCvMqvk/pnkSW8X2"]
+[Annotator "https://lichess.org/@/rudisco"]
+[UTCDate "2021.03.14"]
+[UTCTime "04:58:46"]
+
+{ Part 1 here: https://lichess.org/study/dSNQO9Uq
+
+Hit the 64 game limit in the other study so continuing on from this one. Apologies if the games seem out of order }
+ *
+
+
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2020.11.09"]
+[Round "-"]
+[White "Sumit2099"]
+[Black "SenseiDanya"]
+[Result "0-1"]
+[WhiteElo "1119"]
+[BlackElo "1064"]
+[TimeControl "300"]
+[Termination "SenseiDanya won by resignation"]
+[Variant "Standard"]
+[ECO "C20"]
+[Opening "King's Pawn Game: Napoleon Attack"]
+[StudyName "Sensei Danya Speedrun (Part 2)"]
+[ChapterName "Game 44: Napoleon Attack (Black, ELO 1054)"]
+[ChapterURL "https://lichess.org/study/6gCvMqvk/KQZXn4dh"]
+[Annotator "https://lichess.org/@/rudisco"]
+
+{ THEMES and Things to Look For
+- The player that is better developed has an advantage in open positions. If you are better developed, then open up the center!
+- When up a queen, don't worry too much about losing a few pawns if you are able to develop instead.
+
+Stream footage here: https://www.youtube.com/watch?v=33EpuPv4ULw
+Game played here: www.chess.com/live/game/5710916249 }
+1. e4 { [%clk 0:05:00] } 1... e5 { [%clk 0:04:57] } 2. Qf3 { The Danya soul read on the scholar's mate. } { [%clk 0:04:58] } 2... Nc6 { [%clk 0:04:54] } 3. Bc4 { Scholar's mate threat, what should black do? } { [%csl Rf7][%cal Rc4f7,Rf3f7] [%clk 0:04:56] } 3... Nf6 { Black can simply develop while stopping the mating threat. } { [%clk 0:04:43] } 4. Qb3 { White threatening winning a pawn. How should black respond? } { [%csl Rf7][%cal Rc4f7] [%clk 0:04:54] } 4... Nd4 { Black can simply ignore that threat and respond with one of their own. The idea here is to overload the queen and prevent white from defending the bishop after Bxf7. } { [%csl Rb3][%cal Rd4b3] [%clk 0:04:03] } (4... Na5 5. Bxf7+ Ke7 6. Qb4+ { White's most straightforward option here is to check and... } 6... Kxf7 7. Qxa5 { ... trade pieces. }) 5. Qd3 { Black has a developmental lead, how can black take advantage of this? } { [%clk 0:04:20] } (5. Bxf7+ Ke7 { Note that when you allow Bxf7 in this setup, make sure e6 is defended, otherwise Qe6 is mate! } { [%csl Be6] } 6. Qc4 b5 { Forcing the queen off the diagonal defending the king. } { [%csl Be6,Bd5,Bc4,Bb3] } 7. Qc3 Kxf7 { And black wins a piece. }) 5... d5 { By opening the center! } { [%clk 0:03:37] } 6. exd5 { [%clk 0:04:03] } 6... Bf5 { Forcing the queen away from defending the forking square. } { [%csl Rd3,Rc2,Re1,Ra1][%cal Rf5d3,Rd4c2,Rc2e1,Rc2a1] [%clk 0:03:26] } 7. Qxf5?? { Or not... } { [%csl Rf5][%cal Rd4f5] [%clk 0:03:43] } 7... Nxf5 { White simply blunders the queen. } { [%clk 0:03:21] } 8. d3 { [%clk 0:03:22] } 8... Nxd5 { [%clk 0:03:16] } 9. Nf3 { Oh no the pawn is under attack! } { [%csl Re5][%cal Rf3e5] [%clk 0:03:13] } 9... Bc5 { Black can ignore this threat and continue to develop. When up a queen, it is okay to give up some pawns for development! } { [%clk 0:02:47] } (9... Bb4+ { Obviously black is winning here, but this allows white some free development opportunities. } 10. c3 Bc5 11. Nxe5 { [%csl Gd4][%cal Gd3d4] }) 10. Nxe5 { [%clk 0:03:03] } 10... O-O { Black continuing to follow the plan of development. } { [%clk 0:02:44] } 11. Nf3 { Black chooses not to castle and opens the king up for... } { [%clk 0:02:53] } 11... Re8+ { [%clk 0:02:34] } 12. Be3 { [%clk 0:02:33] } 12... Nfxe3 { Black happy to trade. } { [%clk 0:02:30] } 13. fxe3 { Which piece should black take with? } { [%csl Re3][%cal Rd5e3,Rc5e3,Re8e3] [%clk 0:02:31] } 13... Nxe3 { The knight! Setting up a nasty discovery. } { [%csl Re1][%cal Re8e1] [%clk 0:02:16] } 14. Kd2 { White walking into a pin allowing... } { [%csl Rd2][%cal Rd8d2] [%clk 0:02:19] } 14... Nxc4+ { ... black to win the bishop. } { [%csl Rd2][%cal Rd8d2] [%clk 0:02:03] } 0-1
+
+
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2020.11.09"]
+[Round "-"]
+[White "SenseiDanya"]
+[Black "Reza031"]
+[Result "1-0"]
+[WhiteElo "1073"]
+[BlackElo "1112"]
+[TimeControl "300"]
+[Termination "SenseiDanya won by checkmate"]
+[Variant "Standard"]
+[ECO "C41"]
+[Opening "Philidor Defense: Exchange Variation"]
+[StudyName "Sensei Danya Speedrun (Part 2)"]
+[ChapterName "Game 45: Philidor Defense Exchange Variation (White, ELO 1064)"]
+[ChapterURL "https://lichess.org/study/6gCvMqvk/17kfDCIo"]
+[Annotator "https://lichess.org/@/rudisco"]
+
+{ THEMES and Things to Look For
+- When your opponent plays a somewhat dubious opening, like the Philidor, adhere to basic principles to grind out an edge. Playing against these openings requires careful play as they're not easily refuted!
+- Advantages should be thought of as "transformational". How can one convert their advantages into a concrete victory?
+
+Games referenced:
+Spassky - Geller (1968): https://www.chessgames.com/perl/chessgame?gid=1049394
+
+Stream footage here: https://youtu.be/33EpuPv4ULw?t=445
+Game played here: www.chess.com/live/game/5710935107 }
+1. e4 { [%clk 0:05:00] } 1... e5 { [%clk 0:04:54] } 2. Nf3 { [%clk 0:04:57] } 2... d6 { Black opts for the Philidor.
+Fun fact: Philidor, the chess player, never played this opening. } { [%clk 0:04:47] } 3. d4 { White tries to open the center as black's development is hampered with the dark squared bishop being blocked. } { [%csl Gd6][%cal Gf8d6] [%clk 0:04:44] } 3... exd4 { [%clk 0:04:42] } 4. Nxd4 { [%clk 0:04:43] } 4... Nc6 { [%clk 0:04:41] } 5. Nc3 { White can ignore the threat of Nxd4 as the queen is defending the knight and simply continue development. } { [%csl Rd4][%cal Rc6d4,Gd1d4] [%clk 0:04:35] } 5... Nxd4 { [%clk 0:04:39] } 6. Qxd4 { [%clk 0:04:34] } 6... Bd7 { How does white continue their development? } { [%clk 0:04:30] } 7. Bc4 { Placing the light squared bishop on an active square. } { [%clk 0:04:12] } 7... Ne7 { [%clk 0:04:09] } 8. O-O { [%clk 0:04:07] } 8... Nc6 { [%clk 0:04:05] } 9. Qd1 { Seems like a passive move for white, but this gets the queen to a safe square and allows it to redeploy. } { [%clk 0:03:45] } (9. Qd5 { This further exposes the queen and allows black to get some free tempi. } 9... Be6) (9. Qd3 { Same idea here, black can gain some free tempi and... } 9... Ne5 { ... force white to trade their active bishop for the knight. } { [%csl Rc4,Rd3][%cal Re5c4,Re5d3] }) 9... Be7 { [%clk 0:04:02] } 10. Nd5 { Moving the knight onto that juicy (mostly) outpost on d5. } { [%clk 0:03:19] } 10... O-O { [%clk 0:03:51] } 11. f4 { White starting a kingside attack after black castles. } { [%clk 0:03:12] } 11... Be6 { How can white finish development? } { [%clk 0:03:48] } 12. Bd2 { Seems passive at first, but will allow the dark squared bishop to maneuver to a better square. } { [%csl Ga5][%cal Gd2a5] [%clk 0:02:41] } (12. b3 { This seems like a good idea to fianchetto the dark squared bishop. However... } { [%csl Gb2][%cal Gc1b2] } 12... Bf6 { ... this weakens the long diagonal for white and Bf6 gives control of it to black. } { [%csl Ra1][%cal Rf6a1] }) 12... Na5?? { Black blundering the knight. } { [%clk 0:03:41] } (12... Bxd5 { White does not mind losing the knight outpost as it can simply be replaced with the bishop. } 13. Bxd5 { Controlling a nice diagonal here. } { [%csl Rg8][%cal Rd5g8] }) 13. Bxa5 { [%clk 0:02:40] } 13... b6 { [%clk 0:03:39] } 14. Bc3 { [%clk 0:02:37] } 14... c6 { [%csl Rd5][%cal Rc6d5] [%clk 0:03:33] } 15. Qd4 { White threatening checkmate with a bishop queen battery. } { [%csl Rg7][%cal Rc3g7] [%clk 0:02:11] } 15... cxd5?? { [%clk 0:03:27] } 16. Qxg7# { 1-0 White wins by checkmate. } { Black stumbles into checkmate. } { [%clk 0:02:10] } 1-0
+
+
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2020.11.09"]
+[Round "-"]
+[White "SenseiDanya"]
+[Black "BEREHBOH"]
+[Result "1-0"]
+[WhiteElo "1084"]
+[BlackElo "1200"]
+[TimeControl "300"]
+[Termination "SenseiDanya won by checkmate"]
+[Variant "Standard"]
+[ECO "C02"]
+[Opening "French Defense: Advance Variation"]
+[StudyName "Sensei Danya Speedrun (Part 2)"]
+[ChapterName "Game 46: French Defense Advance Variation (White, ELO 1073)"]
+[ChapterURL "https://lichess.org/study/6gCvMqvk/w8vYV4Tn"]
+[Annotator "https://lichess.org/@/rudisco"]
+
+{ THEMES and Things to Look For
+- The knight and the queen are among the most powerful combination of attacking pieces.
+
+Games referenced:
+Naroditsky - Varuzhan (2011): https://www.chessgames.com/perl/chessgame?gid=1621001
+
+Stream footage here: https://youtu.be/33EpuPv4ULw?t=731
+Game played here: www.chess.com/live/game/5710952030 }
+1. e4 { [%clk 0:05:00] } 1... e6 { Start of the French Defense. } { [%clk 0:05:00] } 2. d4 { [%clk 0:04:56] } 2... d5 { [%clk 0:04:58] } 3. e5 { Going into the Advance French line which closes the position } { [%clk 0:04:51] } 3... f6 { Black opts to attack the tip of the pawn chain and not the base. } { [%csl Re5][%cal Rf6e5] [%clk 0:04:57] } 4. exf6 { [%clk 0:04:31] } 4... Nxf6 { Note the e5 square has potential to be a juicy outpost for white. } { [%csl Be5] [%clk 0:04:55] } 5. Nf3 { Ideas of eventually getting to e5 with the knight. } { [%csl Ge5][%cal Gf3e5] [%clk 0:04:20] } 5... Bd6 { [%clk 0:04:54] } 6. Bd3 { There's no need to immediately outpost the knight, white can continue developing for now. } { [%clk 0:04:14] } (6. Ne5 { Playing this immediately allows black to trade and force white to fill the weak square "cavity" with a pawn rather than a more active piece. } 6... Bxe5 7. dxe5) 6... Nbd7 { [%clk 0:04:53] } 7. O-O { [%clk 0:04:10] } 7... b6 { [%clk 0:04:51] } 8. Re1 { White taking control of the half open e file and attacking the undefended pawn } { [%csl Re6,Re8][%cal Re1e8] [%clk 0:03:49] } 8... Nf8 { White would like to remove this bishop so the e5 square is ripe for outpost. } { [%csl Ge6,Bd6][%cal Gf8e6] [%clk 0:04:49] } 9. Bg5 { Developing the bishop to an active square. A common idea in the French is to maneuver the dark squared bishop to g3 to invite the trade such that the e5 square is clear for white's knight to outpost on. } { [%csl Rd8][%cal Rg5d8,Gg5h4,Gh4g3] [%clk 0:03:12] } (9. Bf4 { Probably obvious, but white cannot immediately play Bf4 because it hangs the bishop. } 9... Bxf4) (9. g3 { Preparing the trade via g3 is not advisable because it exposes white's king at the end of the exchange. } 9... Bb7 10. Bf4 Bxf4 11. gxf4) 9... Bd7 { [%clk 0:04:35] } 10. Bh4 { Continuing the manouver } { [%csl Gg3][%cal Gh4g3] [%clk 0:03:07] } 10... Be7 { Black does white's bidding and allows Ne5. } { [%csl Ge5][%cal Gf3e5] [%clk 0:04:33] } 11. Ne5 { [%clk 0:03:05] } 11... Ng6 { [%clk 0:04:29] } 12. Bxg6+ { Opening up the kingside for a potential attack. } { [%clk 0:02:41] } 12... hxg6 { [%clk 0:04:24] } 13. Qd3 { Hanging the bishop for... } { [%csl Rg6,Rh4][%cal Rd3g6,Rh8h4] [%clk 0:02:27] } 13... Rxh4 { [%clk 0:04:07] } (13... Rh6 { Black's attempt to defend. } { [%csl Gg6][%cal Gh6g6] } 14. Bg5 { But after this black is lost as black will be unable to stop mate and retain material. } { [%csl Rh6][%cal Rg5h6] } 14... Ng8 15. Bxh6 Nxh6 16. Qxg6+ Kf8 { The knight may be stopping checkmate, but white has won an exchange and has a crippling attack going. } { [%csl Gf7][%cal Gh6f7] }) 14. Qxg6+ { ... a forced mate. } { [%clk 0:02:26] } 14... Kf8 { [%clk 0:04:04] } 15. Qf7# { 1-0 White wins by checkmate. } { [%clk 0:02:26] } 1-0
+
+
