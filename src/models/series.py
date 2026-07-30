@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
-    from src.models.creator import Creator
+    from src.models.creators import Creators
     from src.models.games import Games
 
 class Series(Base):
@@ -14,5 +14,5 @@ class Series(Base):
     creator_id: Mapped[int] = mapped_column(ForeignKey("creators.id"), index= True)
     name: Mapped[str] = mapped_column(String(100))
 
-    creator: Mapped["Creator"] = relationship(back_populates="series")
+    creator: Mapped["Creators"] = relationship(back_populates="series")
     games: Mapped[list["Games"]] = relationship(back_populates="series")

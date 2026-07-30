@@ -17,7 +17,7 @@ game_id_pattern = re.compile(r"chess\.com/(?:live/game|game/live)/(\d+)")
 games = []
 
 with open(
-    "lichess_study\lichess_study_sensei-danya-speedrun-part-2_by_rudisco_2021.03.14.pgn"
+    "data/lichess_study\lichess_study_sensei-danya-speedrun-part-2_by_rudisco_2021.03.14.pgn"
 ) as pgn_file:
     while True:
         game_json = {}

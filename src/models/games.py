@@ -32,6 +32,6 @@ class Games(Base):
 
 
 
-    series: Mapped["Series"] = relationship(back_populates="game")
-    positions: Mapped[list["Positions"]] = relationship(back_populates="games")
+    series: Mapped["Series"] = relationship(back_populates="games")
+    positions: Mapped[list["Positions"]] = relationship(back_populates="game")
 

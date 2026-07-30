@@ -9,8 +9,8 @@ if TYPE_CHECKING:
     from src.models.series import Series
 
 
-class Creator(Base):
-    __tablename__ = "creator"
+class Creators(Base):
+    __tablename__ = "creators"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
 
