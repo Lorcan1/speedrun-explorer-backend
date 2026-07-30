@@ -1,8 +1,11 @@
-import json 
-import chess.pgn
 import io
+import json
 
-with open('games.json') as f:
+import chess.pgn
+
+from src.utils.fen_trimmer import fen_trimmer
+
+with open('data/games.json') as f:
     games = json.load(f)
 
 fen = []
@@ -23,7 +26,7 @@ for game_json in games:
         move_json["san"] = san
         move_json["side_to_move_next"] = "white" if board.turn else "black"
         move_json["fen"] = board.fen()
-        move_json["fen_key"] = " ".join(board.fen().split(" ")[:-2])
+        move_json["fen_key"] = fen_trimmer(board.fen())
         move_json["youtube_url"] = game_json["youtube_url"]
 
        
@@ -31,6 +34,7 @@ for game_json in games:
 
         fen.append(move_json)
 
-print(fen[0:30])
+with open('data/positions.json', 'w') as f:
+    json.dump(fen, f, indent=2)
         
     

@@ -1,2 +1,7 @@
-if __name__ == "__main__":
-    print("hi")
+from fastapi import FastAPI
+
+from src.routers.routers import router as hello_router  # Import the router
+
+app = FastAPI()
+
+app.include_router(hello_router)

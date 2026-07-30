@@ -1,7 +1,6 @@
 import json
 from datetime import datetime
-
-from sqlalchemy import create_engine
+from src.models.database import engine
 from sqlalchemy.orm import Session
 
 from src.models.creators import Creators
@@ -12,8 +11,9 @@ from src.models.series import Series
 
 SERIES_NAME = "Sensei Speedrun"
 
+chesscom_id_to_game_id = {}
 
-engine = create_engine("sqlite:///./data/chess_positions.db")
+
 
 Base.metadata.create_all(engine)
 
@@ -29,7 +29,7 @@ with Session(engine) as session:
         games = json.load(f)
 
     for game in games:
-        game = Games(
+        new_game = Games(
         series_id = sensei.id,
         white = game["white"], 
         black = game["black"],
@@ -46,5 +46,22 @@ with Session(engine) as session:
         youtube_found = game["youtube_found"],
         chesscom_found = game["chesscom_found"],
         )
-        session.add(game)
+        session.add(new_game)
+        session.commit()
+        chesscom_id_to_game_id[game['game_id']] = new_game.id
+
+    with open("data/positions.json") as f:
+            positions = json.load(f)
+    
+    for position in positions:
+        position = Positions(
+        game_id = chesscom_id_to_game_id[position["game_id"]],
+        ply = position['ply'],
+        move_number = position["move_number"],
+        san = position["san"],
+        side_to_move_next = position["side_to_move_next"],
+        fen = position["fen"],
+        fen_key = position["fen_key"]
+        )
+        session.add(position)
         session.commit()
