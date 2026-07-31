@@ -1,6 +1,16 @@
 [
   {
     "game_id": "5710916249",
+    "ply": 0,
+    "move_number": 0,
+    "san": null,
+    "side_to_move_next": "white",
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "fen_key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -",
+    "youtube_url": "https://www.youtube.com/watch?v=33EpuPv4ULw"
+  },
+  {
+    "game_id": "5710916249",
     "ply": 1,
     "move_number": 1,
     "san": "e4",
@@ -278,6 +288,16 @@
     "fen": "r2qr1k1/ppp2ppp/8/2b5/2n5/3P1N2/PPPK2PP/RN5R w - - 0 15",
     "fen_key": "r2qr1k1/ppp2ppp/8/2b5/2n5/3P1N2/PPPK2PP/RN5R w - -",
     "youtube_url": "https://www.youtube.com/watch?v=33EpuPv4ULw"
+  },
+  {
+    "game_id": "5710935107",
+    "ply": 0,
+    "move_number": 0,
+    "san": null,
+    "side_to_move_next": "white",
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "fen_key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -",
+    "youtube_url": "https://youtu.be/33EpuPv4ULw?t=445"
   },
   {
     "game_id": "5710935107",
@@ -588,6 +608,16 @@
     "fen": "r2q1rk1/p3bpQp/1p1pb3/3p4/2B1PP2/2B5/PPP3PP/R4RK1 b - - 0 16",
     "fen_key": "r2q1rk1/p3bpQp/1p1pb3/3p4/2B1PP2/2B5/PPP3PP/R4RK1 b - -",
     "youtube_url": "https://youtu.be/33EpuPv4ULw?t=445"
+  },
+  {
+    "game_id": "5710952030",
+    "ply": 0,
+    "move_number": 0,
+    "san": null,
+    "side_to_move_next": "white",
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "fen_key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -",
+    "youtube_url": "https://youtu.be/33EpuPv4ULw?t=731"
   },
   {
     "game_id": "5710952030",
