@@ -1,23 +1,16 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy import select, tuple_
 from sqlalchemy.orm import Session
 
-from src.models.creators import Creators
+from src.crud.crud import get_current_moves, get_current_moves_positions, get_next_moves
 from src.models.database import engine
-from src.models.games import Games
-from src.models.positions import Positions
-from src.models.series import Series
+from src.schemas.fen_next_move import FenNextMoveResponse
 from src.utils.fen_trimmer import fen_trimmer
 
 router = APIRouter()
 
+
+
 STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-
-
-@router.get("/")
-async def root():
-    return {"message": "Hello World"}
-
 
 async def get_db():
     try:
@@ -26,56 +19,37 @@ async def get_db():
     finally:
         db.close()
 
+@router.get("/")
+async def root():
+    return {"message": "Hello World"}
+
 
 @router.get("/fen_match")
 async def fen_match(fen: str, db: Session = Depends(get_db)):
     fen_trimmed = fen_trimmer(fen)
     print(fen_trimmed)
-    matches = (
-        db.execute(select(Positions).where(Positions.fen_key == fen_trimmed))
-        .scalars()
-        .all()
-    )
+    matches = get_current_moves_positions(db, fen_trimmed)
     return {"matches": matches}
 
 
-@router.get("/fen_next_move")
+@router.get("/fen_next_move", response_model=FenNextMoveResponse)
 async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
     fen_trimmed = fen_trimmer(fen)
-    positions = (
-        db.execute(select(Positions).where(Positions.fen_key == fen_trimmed))
-        .scalars()
-        .all()
-    )
-    p_plus_one = []
-    for pos in positions:
-        p_plus_one.append((pos.game_id, pos.ply + 1))
+
+    rows = get_current_moves(db, fen_trimmed)
+
+
+
+    p_plus_one = [((row.Positions.game_id, row.Positions.ply + 1)) for row in rows]
+
+    next_positions = get_next_moves(db, p_plus_one)
 
     output_json = {}
-
-    next_positions = (
-        db.execute(
-            select(Positions).where(
-                tuple_(Positions.game_id, Positions.ply).in_(p_plus_one)
-            )
-        )
-        .scalars()
-        .all()
-    )
 
     next_moves = {}
     san_dict = {}
     endings_dict = {}
     next_by_key = {(pos.game_id, pos.ply): pos for pos in next_positions}
-
-    stmt = (
-        select(Positions, Series, Games)
-        .join(Games, Positions.game_id == Games.id)
-        .join(Series, Games.series_id == Series.id)
-        .where(fen_trimmed == Positions.fen_key)
-    )
-
-    rows = db.execute(stmt).all()
 
     for row in rows:
         pos, series, game = row
@@ -141,7 +115,7 @@ async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
             key = (game.termination, game.result)
 
             endings_dict[key] = endings_dict.get(key, {})
-            endings_dict[key]["result"] = game.termination
+            endings_dict[key]["termination"] = game.termination
             if draw:
                 endings_dict[key]["speedrunner_result"] = "D"
             else:
@@ -154,7 +128,7 @@ async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
             endings_dict[key]["games"] = finished_games_list
 
     output_json["position_fen"] = fen
-    output_json["total_games"] = len(positions)
+    output_json["total_games"] = len(rows)
 
     next_moves = list(san_dict.values())
     output_json["next_moves"] = next_moves
