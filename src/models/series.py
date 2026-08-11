@@ -13,6 +13,7 @@ class Series(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     creator_id: Mapped[int] = mapped_column(ForeignKey("creators.id"), index= True)
     name: Mapped[str] = mapped_column(String(100))
+    speedrun_username: Mapped[str] = mapped_column(String(100))
 
     creator: Mapped["Creators"] = relationship(back_populates="series")
     games: Mapped[list["Games"]] = relationship(back_populates="series")

@@ -10,6 +10,7 @@ from src.models.positions import Positions
 from src.models.series import Series
 
 SERIES_NAME = "Sensei Speedrun"
+SPEEDRUN_USERNAME = "SenseiDanya"
 
 chesscom_id_to_game_id = {}
 
@@ -21,7 +22,7 @@ with Session(engine) as session:
     danya = Creators(name="Daniel Naroditsky")
     session.add(danya)
     session.commit()
-    sensei = Series(creator_id = danya.id, name = SERIES_NAME)
+    sensei = Series(creator_id = danya.id, name = SERIES_NAME, speedrun_username = SPEEDRUN_USERNAME)
     session.add(sensei)
     session.commit()
 
