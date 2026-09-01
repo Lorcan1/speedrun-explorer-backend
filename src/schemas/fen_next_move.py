@@ -1,12 +1,17 @@
 from pydantic import BaseModel
+from datetime import date
+
 
 
 class GameEntry(BaseModel):
     opponent: str
-    youtube_url: str
+    youtube_url: str | None
     chesscom_url: str
     speedrun_player_colour: str
     result: str
+    white_elo: int
+    black_elo: int
+    game_date: date
 
 
 class NextMoveBucket(BaseModel):

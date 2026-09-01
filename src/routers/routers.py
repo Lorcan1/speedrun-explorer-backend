@@ -1,3 +1,5 @@
+from enum import Enum
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -7,6 +9,12 @@ from src.schemas.fen_next_move import FenNextMoveResponse
 from src.utils.fen_trimmer import fen_trimmer
 
 router = APIRouter()
+
+class SpeedrunPlayerColourFilter(str, Enum):
+    BOTH = "both"
+    WHITE = "white"
+    BLACK = "black"
+
 
 
 
@@ -33,7 +41,7 @@ async def fen_match(fen: str, db: Session = Depends(get_db)):
 
 
 @router.get("/fen_next_move", response_model=FenNextMoveResponse)
-async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
+async def fen_next_move(fen: str = STARTING_FEN, speedrun_player_colour_filter = SpeedrunPlayerColourFilter.BOTH, db: Session = Depends(get_db)):
     fen_trimmed = fen_trimmer(fen)
 
     rows = get_current_moves(db, fen_trimmed)
@@ -51,17 +59,27 @@ async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
     endings_dict = {}
     next_by_key = {(pos.game_id, pos.ply): pos for pos in next_positions}
 
+    total_games = 0  
+
     for row in rows:
         pos, series, game = row
 
         if series.speedrun_username == game.black:
+            if speedrun_player_colour_filter == SpeedrunPlayerColourFilter.WHITE:
+                continue
             opp_name = game.white
             speedrun_player_colour = "black"
         elif series.speedrun_username == game.white:
+            if speedrun_player_colour_filter == SpeedrunPlayerColourFilter.BLACK:
+                continue
             opp_name = game.black
             speedrun_player_colour = "white"
         else:
             raise ValueError("Speedrun Player Name not found")
+
+        total_games += 1
+
+        
 
         if next_by_key.get((pos.game_id, pos.ply + 1)):
             game_output = {}
@@ -71,6 +89,9 @@ async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
             game_output["chesscom_url"] = game.chesscom_url
             game_output["speedrun_player_colour"] = speedrun_player_colour
             game_output["result"] = game.result
+            game_output["white_elo"] = game.white_elo
+            game_output["black_elo"] = game.black_elo
+            game_output["game_date"] = game.game_date
 
             next_move = next_by_key.get((pos.game_id, pos.ply + 1))
 
@@ -111,6 +132,9 @@ async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
             finished_game_output["chesscom_url"] = game.chesscom_url
             finished_game_output["speedrun_player_colour"] = speedrun_player_colour
             finished_game_output["result"] = game.result
+            finished_game_output["white_elo"] = game.white_elo
+            finished_game_output["black_elo"] = game.black_elo
+            finished_game_output["game_date"] = game.game_date
 
             key = (game.termination, game.result)
 
@@ -128,7 +152,7 @@ async def fen_next_move(fen: str = STARTING_FEN, db: Session = Depends(get_db)):
             endings_dict[key]["games"] = finished_games_list
 
     output_json["position_fen"] = fen
-    output_json["total_games"] = len(rows)
+    output_json["total_games"] = total_games
 
     next_moves = list(san_dict.values())
     output_json["next_moves"] = next_moves

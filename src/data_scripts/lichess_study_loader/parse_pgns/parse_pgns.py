@@ -1,7 +1,8 @@
-import chess.pgn
-import re
 import json
+import os
+import re
 
+import chess.pgn
 
 # YouTube: matches youtu.be/ID or youtube.com/watch?v=ID, with optional timestamp
 youtube_pattern = re.compile(
@@ -17,7 +18,8 @@ game_id_pattern = re.compile(r"chess\.com/(?:live/game|game/live)/(\d+)")
 games = []
 
 with open(
-    "data/lichess_study\lichess_study_sensei-danya-speedrun-part-2_by_rudisco_2021.03.14.pgn"
+    # "data/lichess_study\lichess_study_sensei-danya-speedrun-part-2_by_rudisco_2021.03.14.pgn"
+    "data/lichess_study/lichess_study_sensei-danya-speedrun-part-1_by_rudisco_2020.12.23.pgn"
 ) as pgn_file:
     while True:
         game_json = {}
@@ -71,5 +73,12 @@ with open(
 
 print(games)
 
+existing = []
+if os.path.exists('games.json'):
+    with open('games.json') as f:
+        existing = json.load(f)
+
+existing.extend(games)
+
 with open('games.json', 'w') as f:
-    json.dump(games, f, indent=2)
+    json.dump(existing, f, indent=2)
