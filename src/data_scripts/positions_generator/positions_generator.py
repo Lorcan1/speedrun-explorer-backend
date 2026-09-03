@@ -5,7 +5,7 @@ import chess.pgn
 
 from src.utils.fen_trimmer import fen_trimmer
 
-with open('data/games.json') as f:
+with open('updated_games.json') as f:
     games = json.load(f)
 
 fen = []

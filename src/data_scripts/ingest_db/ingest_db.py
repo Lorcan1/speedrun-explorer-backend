@@ -26,7 +26,7 @@ with Session(engine) as session:
     session.add(sensei)
     session.commit()
 
-    with open("data/games.json") as f:
+    with open("updated_games.json") as f:
         games = json.load(f)
 
     for game in games:
