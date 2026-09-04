@@ -12,7 +12,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-df = pd.read_csv("Speedrun Video Opp Matcher - Sheet1.csv")
+df = pd.read_csv("Speedrun Video Opp Matcher - The SenseiSpeedrun.csv")
 df.head()  # first 5 rows
 print(df.columns)  # list of column names (the "titles")
 
@@ -44,7 +44,7 @@ def add_timestamp(url, hours=0, minutes=0, seconds=0):
 
 
 csv_opponents = []
-with open("Speedrun Video Opp Matcher - Sheet1.csv", newline="") as f:
+with open("Speedrun Video Opp Matcher - The SenseiSpeedrun.csv", newline="") as f:
     reader = csv.DictReader(f)  # automatically uses row 1 as keys
     for row in reader:
         if row["Opponent Name"] not in duplicates:

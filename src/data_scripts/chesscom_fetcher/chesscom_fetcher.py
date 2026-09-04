@@ -2,7 +2,7 @@ import csv
 import json
 from collections import Counter
 
-from data_scripts.chesscom_fetcher.chesscom_data_loader import chesscom_loader
+from src.data_scripts.chesscom_fetcher.chesscom_data_loader import chesscom_loader
 from chessdotcom import ChessDotComClient
 
 client = ChessDotComClient(user_agent="My Python Application...")
@@ -35,13 +35,13 @@ opponent_list = sorted(opponents, key=str.lower)
 
 print(len(opponent_list))
 
-# with open("opponents.csv", "w", newline="") as f:
-#     writer = csv.writer(f)
-#     writer.writerow(["Opponent"])
-#     for name in opponent_list:
-#         writer.writerow([name])
+with open("opponents.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Opponent"])
+    for name in opponent_list:
+        writer.writerow([name])
 
-# chesscom_loader(total_games)
+chesscom_loader(total_games)
 
 
 counts = Counter(opps_list)
@@ -50,5 +50,5 @@ duplicates = {value: count for value, count in counts.items() if count > 1}
 print(duplicates)
 
 
-# with open("duplicates.json", "w") as f:
-#     json.dump(duplicates, f, indent=2)
+with open("duplicates.json", "w") as f:
+    json.dump(duplicates, f, indent=2)

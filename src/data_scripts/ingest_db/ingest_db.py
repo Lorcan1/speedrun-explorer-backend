@@ -1,15 +1,17 @@
 import json
 from datetime import datetime
-from src.models.database import engine
+
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from src.models.creators import Creators
-from src.models.database import Base
+from src.models.database import Base, engine
 from src.models.games import Games
 from src.models.positions import Positions
 from src.models.series import Series
 
-SERIES_NAME = "Sensei Speedrun"
+# SERIES_NAME = "Sensei Speedrun"
+SERIES_NAME = "The Sensei Speedrun"
 SPEEDRUN_USERNAME = "SenseiDanya"
 
 chesscom_id_to_game_id = {}
@@ -19,9 +21,10 @@ chesscom_id_to_game_id = {}
 Base.metadata.create_all(engine)
 
 with Session(engine) as session:
-    danya = Creators(name="Daniel Naroditsky")
-    session.add(danya)
-    session.commit()
+    # danya = Creators(name="Daniel Naroditsky")
+    # session.add(danya)
+    # session.commit()
+    danya = session.scalar(select(Creators).where(Creators.name == "Daniel Naroditsky"))
     sensei = Series(creator_id = danya.id, name = SERIES_NAME, speedrun_username = SPEEDRUN_USERNAME)
     session.add(sensei)
     session.commit()
