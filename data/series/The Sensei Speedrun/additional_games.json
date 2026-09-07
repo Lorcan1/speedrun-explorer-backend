@@ -1,0 +1,21 @@
+[{
+    "game_id": "35023247959",
+    "chapter_name": null,
+    "study_name": null,
+    "chapter_url": null,
+    "white": "SenseiDanya",
+    "black": "alberto89789",
+    "result": "1-0",
+    "white_elo": "1210",
+    "black_elo": "1278",
+    "date": "2022.01.04",
+    "eco": "B22",
+    "opening": "https://www.chess.com/openings/Alapin-Sicilian-Defense-2...e6-3.d4-cxd4-4.cxd4",
+    "time_control": "900+10",
+    "termination": "SenseiDanya won by checkmate",
+    "youtube_url": "https://youtu.be/wrk4e6bGi1Y?t=703",
+    "youtube_found": true,
+    "chesscom_url": "https://www.chess.com/game/live/35023247959",
+    "chesscom_found": true,
+    "pgn_moves": "1. e4 c5 2. c3 e6 3. d4 cxd4 4. cxd4 Nf6 5. Nc3 Bb4 6. Bd3 Nc6 7. Nf3 d5 8. e5\nNe4 9. O-O Nxc3 10. bxc3 Bxc3 11. Rb1 Nxd4 12. Nxd4 Bxd4 13. Qa4+ Bd7 14. Qxd4\nO-O 15. Rxb7 Bc6 16. Rb3 Qa5 17. Bxh7+ Kxh7 18. Qh4+ Kg8 19. Rg3 g6 20. Rh3 f5\n21. Qh7# 1-0"
+  }]

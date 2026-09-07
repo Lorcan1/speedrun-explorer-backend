@@ -10,62 +10,86 @@ from src.models.games import Games
 from src.models.positions import Positions
 from src.models.series import Series
 
-# SERIES_NAME = "Sensei Speedrun"
-SERIES_NAME = "The Sensei Speedrun"
+SERIES_NAME_0 = "Speedrun"
+SERIES_NAME_1 = "The Sensei Speedrun"
 SPEEDRUN_USERNAME = "SenseiDanya"
 
-chesscom_id_to_game_id = {}
+series_name = SERIES_NAME_1
 
+
+location = {
+    "Speedrun": {
+        "updated_games": "data/series/Speedrun/updated_games.json",
+        "positions": "data/series/Speedrun/positions.json",
+    },
+    "The Sensei Speedrun": {
+        "updated_games": "data/series/The Sensei Speedrun/updated_games.json",
+        "positions": "data/series/The Sensei Speedrun/positions.json",
+    },
+}
+
+chesscom_id_to_game_id = {}
 
 
 Base.metadata.create_all(engine)
 
 with Session(engine) as session:
-    # danya = Creators(name="Daniel Naroditsky")
-    # session.add(danya)
-    # session.commit()
     danya = session.scalar(select(Creators).where(Creators.name == "Daniel Naroditsky"))
-    sensei = Series(creator_id = danya.id, name = SERIES_NAME, speedrun_username = SPEEDRUN_USERNAME)
+    if not danya:
+        danya = Creators(name="Daniel Naroditsky")
+        session.add(danya)
+        session.commit()
+    sensei = Series(
+        creator_id=danya.id, name=series_name, speedrun_username=SPEEDRUN_USERNAME
+    )
     session.add(sensei)
     session.commit()
 
-    with open("updated_games.json") as f:
+    # with open("updated_games.json") as f:
+    #     games = json.load(f)
+
+    with open(location[series_name]["updated_games"]) as f:
         games = json.load(f)
+
+    sensei = session.scalar(select(Series).where(Series.name == series_name))
 
     for game in games:
         new_game = Games(
-        series_id = sensei.id,
-        white = game["white"], 
-        black = game["black"],
-        result = game["result"],
-        white_elo = game["white_elo"],
-        black_elo = game["black_elo"],
-        game_date = datetime.strptime(game["date"], "%Y.%m.%d").date(),
-        eco = game["eco"],
-        opening = game["opening"],
-        time_control = game["time_control"],
-        termination = game["termination"],
-        youtube_url = game["youtube_url"],
-        chesscom_url = game["chesscom_url"],
-        youtube_found = game["youtube_found"],
-        chesscom_found = game["chesscom_found"],
+            series_id=sensei.id,
+            white=game["white"],
+            black=game["black"],
+            result=game["result"],
+            white_elo=game["white_elo"],
+            black_elo=game["black_elo"],
+            speedrunner_colour=game["speedrunner_colour"],
+            game_date=datetime.strptime(game["date"], "%Y.%m.%d").date(),
+            eco=game["eco"],
+            opening=game["opening"],
+            time_control=game["time_control"],
+            termination=game["termination"],
+            youtube_url=game["youtube_url"],
+            youtube_video_title=game["youtube_video_title"],
+            chesscom_url=game["chesscom_url"],
+            youtube_found=game["youtube_found"],
+            chesscom_found=game["chesscom_found"],
         )
         session.add(new_game)
         session.commit()
-        chesscom_id_to_game_id[game['game_id']] = new_game.id
+        chesscom_id_to_game_id[game["game_id"]] = new_game.id
 
-    with open("data/positions.json") as f:
-            positions = json.load(f)
-    
+    # with open("data/series/Speedrun/positions.json") as f:
+    with open(location[series_name]["positions"]) as f:
+        positions = json.load(f)
+
     for position in positions:
         position = Positions(
-        game_id = chesscom_id_to_game_id[position["game_id"]],
-        ply = position['ply'],
-        move_number = position["move_number"],
-        san = position["san"],
-        side_to_move_next = position["side_to_move_next"],
-        fen = position["fen"],
-        fen_key = position["fen_key"]
+            game_id=chesscom_id_to_game_id[position["game_id"]],
+            ply=position["ply"],
+            move_number=position["move_number"],
+            san=position["san"],
+            side_to_move_next=position["side_to_move_next"],
+            fen=position["fen"],
+            fen_key=position["fen_key"],
         )
         session.add(position)
         session.commit()

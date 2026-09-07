@@ -5,22 +5,22 @@ from sqlalchemy.orm import Session
 
 from src.crud.crud import (
     count_current_games,
+    filter_options_crud,
     get_current_games,
     get_current_moves,
     get_current_moves_positions,
     get_next_moves,
 )
 from src.models.database import engine
+from src.routers.game_filters import (
+    GameFilters,
+    SpeedrunPlayerColourFilter,
+    get_game_filters,
+)
 from src.schemas.fen_next_move import FenNextMoveResponse
 from src.utils.fen_trimmer import fen_trimmer
 
 router = APIRouter()
-
-
-class SpeedrunPlayerColourFilter(str, Enum):
-    BOTH = "both"
-    WHITE = "white"
-    BLACK = "black"
 
 
 STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
@@ -50,12 +50,12 @@ async def fen_match(fen: str, db: Session = Depends(get_db)):
 @router.get("/fen_next_move", response_model=FenNextMoveResponse)
 async def fen_next_move(
     fen: str = STARTING_FEN,
-    speedrun_player_colour_filter=SpeedrunPlayerColourFilter.BOTH,
+    filters: GameFilters = Depends(get_game_filters),
     db: Session = Depends(get_db),
 ):
     fen_trimmed = fen_trimmer(fen)
 
-    rows = get_current_moves(db, fen_trimmed)
+    rows = get_current_moves(db, fen_trimmed, filters)
 
     p_plus_one = [((row.Positions.game_id, row.Positions.ply + 1)) for row in rows]
 
@@ -73,16 +73,10 @@ async def fen_next_move(
     for row in rows:
         pos, series, game = row
 
-        if series.speedrun_username == game.black:
-            if speedrun_player_colour_filter == SpeedrunPlayerColourFilter.WHITE:
-                continue
+        if game.speedrunner_colour == "black":
             opp_name = game.white
-            speedrun_player_colour = "black"
-        elif series.speedrun_username == game.white:
-            if speedrun_player_colour_filter == SpeedrunPlayerColourFilter.BLACK:
-                continue
+        elif game.speedrunner_colour == "white":
             opp_name = game.black
-            speedrun_player_colour = "white"
         else:
             raise ValueError("Speedrun Player Name not found")
 
@@ -94,7 +88,7 @@ async def fen_next_move(
             game_output["opponent"] = opp_name
             game_output["youtube_url"] = game.youtube_url
             game_output["chesscom_url"] = game.chesscom_url
-            game_output["speedrun_player_colour"] = speedrun_player_colour
+            game_output["speedrun_player_colour"] = game.speedrunner_colour
             game_output["result"] = game.result
             game_output["white_elo"] = game.white_elo
             game_output["black_elo"] = game.black_elo
@@ -117,15 +111,15 @@ async def fen_next_move(
             draw = False
 
             if game.result == "0-1":
-                if speedrun_player_colour == "black":
+                if game.speedrunner_colour == "black":
                     speedrun_player_won = True
-                elif speedrun_player_colour == "white":
+                elif game.speedrunner_colour == "white":
                     speedrun_player_won = False
 
             elif game.result == "1-0":
-                if speedrun_player_colour == "black":
+                if game.speedrunner_colour == "black":
                     speedrun_player_won = False
-                elif speedrun_player_colour == "white":
+                elif game.speedrunner_colour == "white":
                     speedrun_player_won = True
 
             elif game.result == "1/2-1/2":
@@ -137,7 +131,7 @@ async def fen_next_move(
             finished_game_output["opponent"] = opp_name
             finished_game_output["youtube_url"] = game.youtube_url
             finished_game_output["chesscom_url"] = game.chesscom_url
-            finished_game_output["speedrun_player_colour"] = speedrun_player_colour
+            finished_game_output["speedrun_player_colour"] = game.speedrunner_colour
             finished_game_output["result"] = game.result
             finished_game_output["white_elo"] = game.white_elo
             finished_game_output["black_elo"] = game.black_elo
@@ -169,8 +163,9 @@ async def fen_next_move(
 
 
 @router.get("/fen_games")
-async def fen_next_move(
+async def fen_games(
     fen: str = STARTING_FEN,
+    filters: GameFilters = Depends(get_game_filters),
     page: int = 1,
     limit: int = 25,
     speedrun_player_colour_filter=SpeedrunPlayerColourFilter.BOTH,
@@ -182,7 +177,7 @@ async def fen_next_move(
 
     fen_trimmed = fen_trimmer(fen)
 
-    rows = get_current_games(db, fen_trimmed, page=page, limit=limit)
+    rows = get_current_games(db, fen_trimmed, filters, page=page, limit=limit)
 
     for row in rows:
         pos, series, game, creators = row
@@ -206,7 +201,7 @@ async def fen_next_move(
 
         game_output = {}
         game_output["id"] = game.id
-        game_output["video_title"] = "Placeholder Title"
+        game_output["video_title"] = game.youtube_video_title
         game_output["series"] = series.name
         game_output["speedrunner"] = creators.name
         game_output["speedrunner_elo"] = speedrunner_elo
@@ -219,10 +214,30 @@ async def fen_next_move(
 
         games_list.append(game_output)
 
-    total_count = count_current_games(db, fen_trimmed)
+    total_count = count_current_games(db, fen_trimmed, filters)
 
     output_json["games"] = games_list
     output_json["total_games"] = total_count
     output_json["has_more"] = (page * limit) < total_count
 
     return output_json
+
+
+class FilterOptionsType(str, Enum):
+    speed_runner = "speedrunner"
+    series = "series"
+    video_title = "video_title"
+
+
+@router.get("/filter_options")
+async def filter_options(
+    col_type: FilterOptionsType,
+    search: str,
+    limit: int = 10,
+    filters: GameFilters = Depends(get_game_filters),
+    db: Session = Depends(get_db),
+):
+
+    output_list = filter_options_crud(db, col_type, search, limit, filters)
+
+    return output_list

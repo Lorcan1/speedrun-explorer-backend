@@ -12,10 +12,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-df = pd.read_csv("Speedrun Video Opp Matcher - The SenseiSpeedrun.csv")
-df.head()  # first 5 rows
-print(df.columns)  # list of column names (the "titles")
-
 with open("youtube_videos.json", "r") as f:
     videos = json.load(f)
     print(videos[:3])
@@ -44,25 +40,25 @@ def add_timestamp(url, hours=0, minutes=0, seconds=0):
 
 
 csv_opponents = []
-with open("Speedrun Video Opp Matcher - The SenseiSpeedrun.csv", newline="") as f:
+with open("data/series/The Sensei Speedrun/Speedrun Video Opp Matcher - The SenseiSpeedrun.csv", newline="") as f:
     reader = csv.DictReader(f)  # automatically uses row 1 as keys
     for row in reader:
         if row["Opponent Name"] not in duplicates:
-            videos_lookup[row["Opponent Name"]] = add_timestamp(
+            videos_lookup[row["Opponent Name"]] = (add_timestamp(
                 videos[int(row["Video No"]) - 1]["video_url"],
                 hours=int(row["Time Hours"]),
                 minutes=int(row["Minutes"]),
                 seconds=int(row["Seconds"]),
-            )
+            ), videos[int(row["Video No"]) - 1]["title"])
         elif row["Opponent Name"] in duplicates:
             videos_duplicates_lookup[(row["Opponent Name"], row["ELO"])] = (
-                add_timestamp(
+                (add_timestamp(
                     videos[int(row["Video No"]) - 1]["video_url"],
                     hours=int(row["Time Hours"]),
                     minutes=int(row["Minutes"]),
                     seconds=int(row["Seconds"]),
                 )
-            )
+            ), videos[int(row["Video No"]) - 1]["title"])
         csv_opponents.append(row["Opponent Name"])
 
 
@@ -76,17 +72,20 @@ for game in games:
     if game["white"] == "SenseiDanya":
         opponent = game["black"]
         danya_elo = str(game["white_elo"])
+        game["speedrunner_colour"] = "white"
     elif game["black"] == "SenseiDanya":
         opponent = game["white"]
         danya_elo = str(game["black_elo"])
+        game["speedrunner_colour"] = "black"
     else:
         logging.error(f"No video found for opponent: {opponent}")
         continue
 
     if opponent not in duplicates:
         if opponent in videos_lookup:
-            game["youtube_url"] = videos_lookup[opponent]
+            game["youtube_url"] = videos_lookup[opponent][0]
             game["youtube_found"] = True
+            game["youtube_video_title"] = videos_lookup[opponent][1]
             updated_games.append(game)
             opponents_list.append(opponent)
         else:
@@ -94,7 +93,8 @@ for game in games:
 
     elif opponent in duplicates:
         if (opponent, danya_elo) in videos_duplicates_lookup:
-            game["youtube_url"] = videos_duplicates_lookup[(opponent, danya_elo)]
+            game["youtube_url"] = videos_duplicates_lookup[(opponent, danya_elo)][0]
+            game["youtube_video_title"] = videos_duplicates_lookup[(opponent, danya_elo)][1]
             updated_games.append(game)
             opponents_list.append(opponent)
         else:
