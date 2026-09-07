@@ -1,4 +1,4 @@
-from sqlalchemy import select, tuple_
+from sqlalchemy import func, select, tuple_
 
 from src.models.creators import Creators  # noqa: F401
 from src.models.games import Games
@@ -35,3 +35,29 @@ def get_next_moves(db, p_plus_one):
         .scalars()
         .all()
     )
+
+def get_current_games(db, fen_trimmed, page: int,limit: int):
+    stmt = (
+        select(Positions, Series, Games, Creators)
+        .join(Games, Positions.game_id == Games.id)
+        .join(Series, Games.series_id == Series.id)
+        .join(Creators, Series.creator_id == Creators.id)
+        .where(fen_trimmed == Positions.fen_key)
+        .order_by(Games.game_date.desc())
+        .limit(limit)
+        .offset((page-1)* limit)
+
+    )
+
+    return db.execute(stmt).all()
+
+def count_current_games(db, fen_trimmeed):
+    stmt = (
+        select(func.count(Games.id))
+        .select_from(Positions)
+        .join(Games, Positions.game_id == Games.id)
+        .where(fen_trimmeed == Positions.fen_key)
+        
+    )
+
+    return db.scalar(stmt)
