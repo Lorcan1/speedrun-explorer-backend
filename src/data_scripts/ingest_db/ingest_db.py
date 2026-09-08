@@ -54,14 +54,25 @@ with Session(engine) as session:
     sensei = session.scalar(select(Series).where(Series.name == series_name))
 
     for game in games:
+        if game["result"] == "1/2-1/2":
+            speedrunner_result = "draw"
+        elif (game["result"] == "1-0" and game["speedrunner_colour"] == "white" or
+              game["result"] == "0-1" and game["speedrunner_colour"] == "black" ):
+            speedrunner_result = "win"
+        else:
+            speedrunner_result = "loss"
+
+
         new_game = Games(
             series_id=sensei.id,
             white=game["white"],
             black=game["black"],
             result=game["result"],
+            speedrunner_result = speedrunner_result,
             white_elo=game["white_elo"],
             black_elo=game["black_elo"],
             speedrunner_colour=game["speedrunner_colour"],
+            speedrunner_elo = game["white_elo"] if game["speedrunner_colour"] == "white" else game["black_elo"],
             game_date=datetime.strptime(game["date"], "%Y.%m.%d").date(),
             eco=game["eco"],
             opening=game["opening"],

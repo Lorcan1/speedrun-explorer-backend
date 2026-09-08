@@ -168,6 +168,7 @@ async def fen_games(
     filters: GameFilters = Depends(get_game_filters),
     page: int = 1,
     limit: int = 25,
+    sort: str | None = None,
     speedrun_player_colour_filter=SpeedrunPlayerColourFilter.BOTH,
     db: Session = Depends(get_db),
 ):
@@ -177,7 +178,7 @@ async def fen_games(
 
     fen_trimmed = fen_trimmer(fen)
 
-    rows = get_current_games(db, fen_trimmed, filters, page=page, limit=limit)
+    rows = get_current_games(db, fen_trimmed, filters, page=page, limit=limit, sort=sort)
 
     for row in rows:
         pos, series, game, creators = row

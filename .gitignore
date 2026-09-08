@@ -223,3 +223,4 @@ data/chess_positions.db
 temp
 backup_db/**
 openapi.json
+data/chess_positions.db

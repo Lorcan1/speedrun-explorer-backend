@@ -38,16 +38,21 @@ def get_next_moves(db, p_plus_one):
     )
 
 
-def get_current_games(db, fen_trimmed, filters, page: int, limit: int):
+def get_current_games(db, fen_trimmed, filters, page: int, limit: int, sort: str):
+
+    sort_param = sort_param_helper(sort)
+
+    
     stmt = (
         select(Positions, Series, Games, Creators)
         .join(Games, Positions.game_id == Games.id)
         .join(Series, Games.series_id == Series.id)
         .join(Creators, Series.creator_id == Creators.id)
         .where(fen_trimmed == Positions.fen_key)
-        .order_by(Games.game_date.desc())
         .limit(limit)
         .offset((page - 1) * limit)
+        .order_by(sort_param)
+    
     )
     stmt = filters.apply(stmt)
 
@@ -66,18 +71,51 @@ def count_current_games(db, fen_trimmed, filters):
 
     return db.scalar(stmt)
 
+def sort_param_helper(sort):
+    sort_param = Games.id.desc()
+    
+    asc = True
+
+    if sort:
+        if sort.startswith("-"):
+            sort = sort[1:]
+            asc = False
+            
+        if sort == "video_title":
+            sort_param = Games.youtube_video_title
+        elif sort == "series":
+            sort_param = Series.name
+        elif sort == "speedrunner":
+            sort_param = Creators.name
+        elif sort == "game_date":
+            sort_param = Games.game_date
+        elif sort == "speedrunner_elo":
+            sort_param = Games.speedrunner_elo
+
+        if asc:
+            sort_param = sort_param.asc()
+        else:
+            sort_param = sort_param.desc()
+    return sort_param 
+
 
 def filter_options_crud(db, col_type, search, limit, filters):
     if col_type == "speedrunner":
         val = Creators.name
+        if filters.speedrunner_names:
+            filters.speedrunner_names = None
     elif col_type == "series":
         val = Series.name
+        if filters.series_names:
+            filters.series_names = None
     elif col_type == "video_title":
         val = Games.youtube_video_title
+        if filters.video_titles:
+            filters.video_titles = None
 
     stmt = select(val).distinct().where(val.ilike(f"%{search}%")).limit(limit)
 
-    # stmt = filters.apply(stmt)
+    stmt = filters.apply(stmt)
     stmt = stmt.limit(limit)
 
     

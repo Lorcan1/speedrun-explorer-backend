@@ -29,7 +29,8 @@ class GameFilters:
     max_elo_opponent: int | None = None
     min_elo_speedrunner: int | None = None
     max_elo_speedrunner: int | None = None
-    result: str | None = None
+    result: list[str] | None = None
+    speedrunner_result: list[str] | None = None
 
     def apply(self, query):
         if self.speedrun_player_colour_filter and self.speedrun_player_colour_filter != SpeedrunPlayerColourFilter.BOTH:
@@ -56,7 +57,11 @@ class GameFilters:
         if self.max_elo_speedrunner is not None:
             query = query.where(self._speedrunner_elo_expr() <= self.max_elo_speedrunner)
         if self.result is not None:
-            query = query.where(Games.result == self.result)
+            result_condition = [Games.result == result for result in self.result] 
+            query = query.where(or_(*result_condition))
+        if self.speedrunner_result is not None:
+            sp_result_condition = [Games.speedrunner_result == sp_result for sp_result in self.speedrunner_result] 
+            query = query.where(or_(*sp_result_condition))
         return query
 
     def _speedrunner_elo_expr(self):
@@ -83,7 +88,8 @@ def get_game_filters(
     max_elo_opponent: int | None = None,
     min_elo_speedrunner: int | None = None,
     max_elo_speedrunner: int | None = None,
-    result: str | None = None,
+    result: Annotated[list[str] | None, Query()] = None,
+    speedrunner_result: Annotated[list[str] | None, Query()] = None
 ) -> GameFilters:
     return GameFilters(
         speedrun_player_colour_filter=speedrun_player_colour_filter,
@@ -97,4 +103,5 @@ def get_game_filters(
         min_elo_speedrunner=min_elo_speedrunner,
         max_elo_speedrunner=max_elo_speedrunner,
         result=result,
+        speedrunner_result=speedrunner_result
     )
