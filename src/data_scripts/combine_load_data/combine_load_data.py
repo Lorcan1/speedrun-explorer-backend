@@ -5,6 +5,9 @@ from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 import logging
 from collections import Counter
 
+SPEERUNNER_CHESSCOM_USERNAME0 = "SenseiDanya"
+SPEERUNNER_CHESSCOM_USERNAME1 = "HebeccaRaris"
+
 
 logging.basicConfig(
     filename="errors.log",
@@ -12,7 +15,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-with open("youtube_videos.json", "r") as f:
+with open("youtube_videos.json", "r", encoding="utf-8") as f:
     videos = json.load(f)
     print(videos[:3])
 
@@ -40,7 +43,7 @@ def add_timestamp(url, hours=0, minutes=0, seconds=0):
 
 
 csv_opponents = []
-with open("data/series/The Sensei Speedrun/Speedrun Video Opp Matcher - The SenseiSpeedrun.csv", newline="") as f:
+with open("data/series/DYI/Speedrun Video Opp Matcher - DYI.csv", newline="") as f:
     reader = csv.DictReader(f)  # automatically uses row 1 as keys
     for row in reader:
         if row["Opponent Name"] not in duplicates:
@@ -69,11 +72,11 @@ opponents_list = []
 
 
 for game in games:
-    if game["white"] == "SenseiDanya":
+    if game["white"] == SPEERUNNER_CHESSCOM_USERNAME1:
         opponent = game["black"]
         danya_elo = str(game["white_elo"])
         game["speedrunner_colour"] = "white"
-    elif game["black"] == "SenseiDanya":
+    elif game["black"] == SPEERUNNER_CHESSCOM_USERNAME1:
         opponent = game["white"]
         danya_elo = str(game["black_elo"])
         game["speedrunner_colour"] = "black"

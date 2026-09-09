@@ -17,8 +17,9 @@ pl_request = youtube.playlists().list(
 
 pl_response = pl_request.execute()
 playlist_id = None
-playlist_name = "The Sensei SpeedRun"
+playlist_name = "DYI Develop Your Instincts Speedrun"
 for item in pl_response['items']:
+    # print(item["snippet"]['title'])
     if item["snippet"]['title'] == playlist_name:
         playlist_id = item["id"]
 

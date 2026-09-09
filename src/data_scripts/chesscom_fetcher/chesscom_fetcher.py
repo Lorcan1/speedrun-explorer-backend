@@ -11,16 +11,17 @@ client = ChessDotComClient(user_agent="My Python Application...")
 total_games = []
 
 # months = [(2020, 10), (2020, 11), (2020, 12), (2021, 1), (2021, 2)]
-months = [(2021, 12), (2022, 1), (2022, 2), (2022, 3), (2022, 4), (2022, 5), (2022, 6), (2022, 7), (2022, 8), (2022, 9), (2022, 10) ]
+months = [(2024, 2), (2024, 3), (2024, 4), (2024, 5), (2024, 6), (2024, 7), (2024, 8), (2024, 9), (2024, 10),(2024, 11),(2024, 12),(2025, 1),
+          (2025, 2), (2025, 3), (2025, 4), (2025, 5), (2025, 6), (2025, 7), (2025, 8), (2025, 9), (2025, 10)]
 
 for y, m in months:
-    response = client.get_player_games_by_month(username="SenseiDanya", year=y, month=m)
+    response = client.get_player_games_by_month(username="HebeccaRaris", year=y, month=m)
 
     total_games.extend(response.json["games"])
 
 print(len(total_games))
 
-youtuber_username = "SenseiDanya"
+youtuber_username = "HebeccaRaris"
 
 opponents = set()
 opps_list = []

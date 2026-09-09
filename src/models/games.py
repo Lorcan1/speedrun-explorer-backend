@@ -18,7 +18,7 @@ class Games(Base):
     white: Mapped[str] = mapped_column(String(100))
     black: Mapped[str] = mapped_column(String(100))
     result: Mapped[str] = mapped_column(String(100))
-    speedrunner_result: Mapped[str] = mapped_column(String(100))
+    # speedrunner_result: Mapped[str] = mapped_column(String(100))
     white_elo: Mapped[int] = mapped_column(Integer)
     black_elo: Mapped[int] = mapped_column(Integer)
     speedrunner_colour: Mapped[str | None] = mapped_column(String(100))

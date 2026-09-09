@@ -12,9 +12,12 @@ from src.models.series import Series
 
 SERIES_NAME_0 = "Speedrun"
 SERIES_NAME_1 = "The Sensei Speedrun"
-SPEEDRUN_USERNAME = "SenseiDanya"
+SERIES_NAME_2 = "DYI Develop Your Instincts Speedrun"
+SPEEDRUN_USERNAME0 = "SenseiDanya"
+SPEEDRUN_USERNAME1 = "HebeccaRaris"
 
-series_name = SERIES_NAME_1
+series_name = SERIES_NAME_2
+speedrun_username = SPEEDRUN_USERNAME1
 
 
 location = {
@@ -26,6 +29,12 @@ location = {
         "updated_games": "data/series/The Sensei Speedrun/updated_games.json",
         "positions": "data/series/The Sensei Speedrun/positions.json",
     },
+    "DYI Develop Your Instincts Speedrun": {
+        "updated_games": "data/series/DYI/updated_games.json",
+        "positions": "data/series/DYI/positions.json"
+
+    }
+
 }
 
 chesscom_id_to_game_id = {}
@@ -39,11 +48,13 @@ with Session(engine) as session:
         danya = Creators(name="Daniel Naroditsky")
         session.add(danya)
         session.commit()
-    sensei = Series(
-        creator_id=danya.id, name=series_name, speedrun_username=SPEEDRUN_USERNAME
+    series = session.scalar(select(Series).where(Series.name == series_name))
+    if not series:
+        series = Series(
+        creator_id=danya.id, name=series_name, speedrun_username=speedrun_username
     )
-    session.add(sensei)
-    session.commit()
+        session.add(series)
+        session.commit()
 
     # with open("updated_games.json") as f:
     #     games = json.load(f)
@@ -56,8 +67,8 @@ with Session(engine) as session:
     for game in games:
         if game["result"] == "1/2-1/2":
             speedrunner_result = "draw"
-        elif (game["result"] == "1-0" and game["speedrunner_colour"] == "white" or
-              game["result"] == "0-1" and game["speedrunner_colour"] == "black" ):
+        elif ((game["result"] == "1-0" and game["speedrunner_colour"] == "white") or 
+              (game["result"] == "0-1" and game["speedrunner_colour"] == "black" )):
             speedrunner_result = "win"
         else:
             speedrunner_result = "loss"
@@ -68,7 +79,7 @@ with Session(engine) as session:
             white=game["white"],
             black=game["black"],
             result=game["result"],
-            speedrunner_result = speedrunner_result,
+            # speedrunner_result = speedrunner_result,
             white_elo=game["white_elo"],
             black_elo=game["black_elo"],
             speedrunner_colour=game["speedrunner_colour"],
