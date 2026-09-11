@@ -13,26 +13,33 @@ from src.models.series import Series
 SERIES_NAME_0 = "Speedrun"
 SERIES_NAME_1 = "The Sensei Speedrun"
 SERIES_NAME_2 = "DYI Develop Your Instincts Speedrun"
-SPEEDRUN_USERNAME0 = "SenseiDanya"
-SPEEDRUN_USERNAME1 = "HebeccaRaris"
+SERIES_NAME_3= "Top Theory"
 
-series_name = SERIES_NAME_2
-speedrun_username = SPEEDRUN_USERNAME1
+series_name = SERIES_NAME_3 #change this 
 
 
 location = {
     "Speedrun": {
         "updated_games": "data/series/Speedrun/updated_games.json",
         "positions": "data/series/Speedrun/positions.json",
+        "username": "SenseiDanya"
     },
     "The Sensei Speedrun": {
         "updated_games": "data/series/The Sensei Speedrun/updated_games.json",
         "positions": "data/series/The Sensei Speedrun/positions.json",
+        "username": "SenseiDanya"
     },
     "DYI Develop Your Instincts Speedrun": {
         "updated_games": "data/series/DYI/updated_games.json",
-        "positions": "data/series/DYI/positions.json"
+        "positions": "data/series/DYI/positions.json",
+        "username": "HebeccaRaris"
 
+    },
+
+    "Top Theory": {
+        "updated_games": "data/series/Top Theory/updated_games.json",
+        "positions": "data/series/Top Theory/positions.json",
+        "username": "FrankfurtAirport"
     }
 
 }
@@ -51,7 +58,7 @@ with Session(engine) as session:
     series = session.scalar(select(Series).where(Series.name == series_name))
     if not series:
         series = Series(
-        creator_id=danya.id, name=series_name, speedrun_username=speedrun_username
+        creator_id=danya.id, name=series_name, speedrun_username=location[series_name]["username"]
     )
         session.add(series)
         session.commit()
@@ -79,7 +86,7 @@ with Session(engine) as session:
             white=game["white"],
             black=game["black"],
             result=game["result"],
-            # speedrunner_result = speedrunner_result,
+            speedrunner_result = speedrunner_result,
             white_elo=game["white_elo"],
             black_elo=game["black_elo"],
             speedrunner_colour=game["speedrunner_colour"],

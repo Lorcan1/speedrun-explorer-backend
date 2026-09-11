@@ -8,7 +8,7 @@ from src.utils.fen_trimmer import fen_trimmer
 # with open('updated_games.json') as f:
 #     games = json.load(f)
 
-with open('data/series/DYI/updated_games.json') as f:
+with open('data/series/Top Theory/updated_games.json') as f:
     games = json.load(f)
 
 

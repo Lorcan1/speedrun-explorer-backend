@@ -7,28 +7,30 @@ from chessdotcom import ChessDotComClient
 
 client = ChessDotComClient(user_agent="My Python Application...")
 
+speedrunner_username = "OhMyLands"
+
 
 total_games = []
 
 # months = [(2020, 10), (2020, 11), (2020, 12), (2021, 1), (2021, 2)]
-months = [(2024, 2), (2024, 3), (2024, 4), (2024, 5), (2024, 6), (2024, 7), (2024, 8), (2024, 9), (2024, 10),(2024, 11),(2024, 12),(2025, 1),
-          (2025, 2), (2025, 3), (2025, 4), (2025, 5), (2025, 6), (2025, 7), (2025, 8), (2025, 9), (2025, 10)]
+months = [(2021, 3), (2021, 4), (2021, 5), (2021, 6), 
+          (2021, 7), (2021, 8), (2021, 9), (2021, 10)]
 
 for y, m in months:
-    response = client.get_player_games_by_month(username="HebeccaRaris", year=y, month=m)
+    response = client.get_player_games_by_month(username=speedrunner_username, year=y, month=m)
 
     total_games.extend(response.json["games"])
 
 print(len(total_games))
 
-youtuber_username = "HebeccaRaris"
+
 
 opponents = set()
 opps_list = []
 for game in total_games:
     white = game["white"]["username"]
     black = game["black"]["username"]
-    opponent = black if white.lower() == youtuber_username.lower() else white
+    opponent = black if white.lower() == speedrunner_username.lower() else white
     opponents.add(opponent)
     opps_list.append(opponent)
 

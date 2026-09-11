@@ -5,9 +5,9 @@ from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 import logging
 from collections import Counter
 
-SPEERUNNER_CHESSCOM_USERNAME0 = "SenseiDanya"
-SPEERUNNER_CHESSCOM_USERNAME1 = "HebeccaRaris"
-
+SPEEDRUNNER_CHESSCOM_USERNAME0 = "SenseiDanya"
+SPEEDRUNNER_CHESSCOM_USERNAME1 = "HebeccaRaris"
+SPEEDRUNNER_CHESSCOM_USERNAME2 = "FrankfurtAirport"
 
 logging.basicConfig(
     filename="errors.log",
@@ -43,7 +43,7 @@ def add_timestamp(url, hours=0, minutes=0, seconds=0):
 
 
 csv_opponents = []
-with open("data/series/DYI/Speedrun Video Opp Matcher - DYI.csv", newline="") as f:
+with open("data/series/Top Theory/Speedrun Video Opp Matcher - Top Theory.csv", newline="") as f:
     reader = csv.DictReader(f)  # automatically uses row 1 as keys
     for row in reader:
         if row["Opponent Name"] not in duplicates:
@@ -72,11 +72,11 @@ opponents_list = []
 
 
 for game in games:
-    if game["white"] == SPEERUNNER_CHESSCOM_USERNAME1:
+    if game["white"] == SPEEDRUNNER_CHESSCOM_USERNAME2:
         opponent = game["black"]
         danya_elo = str(game["white_elo"])
         game["speedrunner_colour"] = "white"
-    elif game["black"] == SPEERUNNER_CHESSCOM_USERNAME1:
+    elif game["black"] == SPEEDRUNNER_CHESSCOM_USERNAME2:
         opponent = game["white"]
         danya_elo = str(game["black_elo"])
         game["speedrunner_colour"] = "black"
